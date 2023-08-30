@@ -1,4 +1,3 @@
-"use client";
 /* Components */
 import { Providers } from "@/lib/providers";
 import { Nav } from "./components/Nav";
@@ -7,7 +6,6 @@ import { Nav } from "./components/Nav";
 import styles from "./styles/layout.module.css";
 import "./styles/globals.css";
 import Header from "./components/Header";
-import { Box } from "@mui/material";
 
 export default function RootLayout(props: React.PropsWithChildren) {
   return (
@@ -15,15 +13,7 @@ export default function RootLayout(props: React.PropsWithChildren) {
       <html lang="en">
         <body>
           <Header />
-          <Box
-            component="main"
-            sx={{
-              height: "100vh",
-              backgroundColor: (theme) => theme.palette.grey[900],
-            }}
-          >
-            {props.children}
-          </Box>
+          {props.children}
         </body>
       </html>
     </Providers>
