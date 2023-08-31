@@ -14,7 +14,7 @@ export default function CategoryList() {
   }));
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 350 },
+    { field: "id", headerName: "ID", width: 150 },
     { field: "name", headerName: "Name", width: 150 },
     { field: "description", headerName: "Description", width: 150 },
   ];
