@@ -1,8 +1,22 @@
 "use client";
 /* Components */
 import { selectCategories, useSelector } from "@/lib/redux";
-import { Box, Button, Link, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import {
+  Box,
+  Button,
+  IconButton,
+  Link,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridRowsProp,
+  GridToolbar,
+} from "@mui/x-data-grid";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function CategoryList() {
   const categories = useSelector(selectCategories);
@@ -10,14 +24,49 @@ export default function CategoryList() {
   const rows: GridRowsProp = categories.map((category) => ({
     id: category.id,
     name: category.name,
+    is_active: category.is_active,
+    created_at: new Date(category.created_at).toLocaleDateString("pt-BR"),
     description: category.description,
   }));
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 350 },
-    { field: "name", headerName: "Name", width: 150 },
-    { field: "description", headerName: "Description", width: 150 },
+    { field: "name", headerName: "Name", flex: 1 },
+    { field: "description", headerName: "Description", flex: 1 },
+    {
+      field: "is_active",
+      headerName: "Active",
+      flex: 1,
+      type: "boolean",
+      renderCell: renderIsActiveCell,
+    },
+    { field: "created_at", headerName: "Created At", flex: 1 },
+    {
+      field: "id",
+      headerName: "Actions",
+      flex: 1,
+      renderCell: renderActionsCell,
+    },
   ];
+
+  function renderActionsCell(rowData: GridRenderCellParams) {
+    return (
+      <IconButton
+        color="secondary"
+        aria-label="delete"
+        onClick={() => console.log("delete")}
+      >
+        <DeleteIcon />
+      </IconButton>
+    );
+  }
+
+  function renderIsActiveCell(rowData: GridRenderCellParams) {
+    return (
+      <Typography color={rowData.value ? "primary" : "secondary"}>
+        {rowData.value ? "Active" : "Inactive"}
+      </Typography>
+    );
+  }
 
   return (
     <Box maxWidth="lg" sx={{ pt: 4, mb: 4 }}>
@@ -37,7 +86,20 @@ export default function CategoryList() {
         <Typography key={category.id}>{category.name}</Typography>
       ))} */}
       <div style={{ height: 300, width: "100%" }}>
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+            },
+          }}
+          disableRowSelectionOnClick={true}
+          disableColumnSelector={true}
+          disableColumnFilter={true}
+          disableDensitySelector={true}
+        />
       </div>
     </Box>
   );
