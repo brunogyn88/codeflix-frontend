@@ -2,19 +2,20 @@
 import { Box, Typography } from "@mui/material";
 import { usePathname } from "next/navigation";
 
-export default function CategoryEdit() {
-  const pathname = usePathname();
-  const id = pathname.split("/").pop();
+interface CategoryProps {
+  params: {
+    id: string;
+  };
+}
 
-  console.log(id);
-
+export default function CategoryEdit(params: CategoryProps) {
   return (
     <Box>
       <Typography variant="h3" component="h1">
         CategoryEdit Page
       </Typography>
       <Typography variant="h3" component="h1">
-        categoryID: {id}
+        categoryID: {params.params.id}
       </Typography>
     </Box>
   );
