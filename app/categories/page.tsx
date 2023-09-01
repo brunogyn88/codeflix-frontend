@@ -1,14 +1,7 @@
 "use client";
 /* Components */
 import { selectCategories, useSelector } from "@/lib/redux";
-import {
-  Box,
-  Button,
-  IconButton,
-  Link,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, Link, Typography } from "@mui/material";
 import {
   DataGrid,
   GridColDef,
@@ -21,6 +14,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 export default function CategoryList() {
   const categories = useSelector(selectCategories);
 
+  const componentProps = {
+    toolbar: {
+      showQuickFilter: true,
+    },
+  };
+
   const rows: GridRowsProp = categories.map((category) => ({
     id: category.id,
     name: category.name,
@@ -30,7 +29,7 @@ export default function CategoryList() {
   }));
 
   const columns: GridColDef[] = [
-    { field: "name", headerName: "Name", flex: 1 },
+    { field: "name", headerName: "Name", flex: 1, renderCell: renderNameCell },
     { field: "description", headerName: "Description", flex: 1 },
     {
       field: "is_active",
@@ -47,6 +46,14 @@ export default function CategoryList() {
       renderCell: renderActionsCell,
     },
   ];
+
+  function renderNameCell(rowData: GridRenderCellParams) {
+    return (
+      <Link href={`/categories/edit/${rowData.id}`}>
+        <Typography color="primary">{rowData.value}</Typography>
+      </Link>
+    );
+  }
 
   function renderActionsCell(rowData: GridRenderCellParams) {
     return (
@@ -90,11 +97,7 @@ export default function CategoryList() {
           rows={rows}
           columns={columns}
           slots={{ toolbar: GridToolbar }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-            },
-          }}
+          slotProps={componentProps}
           disableRowSelectionOnClick={true}
           disableColumnSelector={true}
           disableColumnFilter={true}

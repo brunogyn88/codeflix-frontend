@@ -7,3 +7,18 @@ import type { ReduxState } from "@/lib/redux";
 export const selectCount = (state: ReduxState) => state.counter.value;
 
 export const selectCategories = (state: ReduxState) => state.categories;
+
+export const selectCategoryById = (state: ReduxState, id: string) => {
+  const category = state.categories.find((category) => category.id === id);
+  return (
+    category || {
+      id: "",
+      name: "",
+      description: "",
+      is_active: false,
+      deleted_at: null,
+      created_at: "",
+      updated_at: "",
+    }
+  );
+};
