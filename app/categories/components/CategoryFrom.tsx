@@ -14,13 +14,21 @@ import React, { useState } from "react";
 
 type Props = {
   category: Category;
-  isdisabled: boolean;
+  isdisabled?: boolean;
+  isLoading?: boolean;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleChange: (e: React.FormEvent<HTMLFormElement>) => void;
   handleToggle: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-export function CategoryFrom() {
+export function CategoryFrom({
+  category,
+  isdisabled = false,
+  isLoading = false,
+  onSubmit,
+  handleChange,
+  handleToggle,
+}: Props) {
   const [isdisabled, setIsdisabled] = useState(false);
   const [category, setCategory] = useState<Category>({
     id: "",
