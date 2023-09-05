@@ -2,6 +2,7 @@
 import { Category } from "@/lib/redux/slices/categorySlice/categorySlice";
 import { Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
+import { CategoryForm } from "../components/CategoryForm";
 
 interface CategoryProps {
   params: {
@@ -32,6 +33,15 @@ export default function CategoryCreate(params: CategoryProps) {
             <Typography variant="h4">Create Category</Typography>
           </Box>
         </Box>
+
+        <CategoryForm
+          category={category}
+          isdisabled={isdisabled}
+          isLoading={false}
+          onSubmit={() => {}}
+          handleChange={handleChange}
+          handleToggle={handleToggle}
+        />
       </Paper>
     </Box>
   );

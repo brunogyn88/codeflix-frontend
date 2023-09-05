@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 
 type Props = {
   category: Category;
@@ -21,7 +21,7 @@ type Props = {
   handleToggle: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-export function CategoryFrom({
+export function CategoryForm({
   category,
   isdisabled = false,
   isLoading = false,
@@ -29,19 +29,6 @@ export function CategoryFrom({
   handleChange,
   handleToggle,
 }: Props) {
-  const [isdisabled, setIsdisabled] = useState(false);
-  const [category, setCategory] = useState<Category>({
-    id: "",
-    name: "",
-    description: "",
-    is_active: false,
-    created_at: "",
-    updated_at: "",
-    deleted_at: "",
-  });
-
-  const handleChange = (e: any) => {};
-  const handleToggle = (e: any) => {};
   return (
     <Box p={2}>
       <form>

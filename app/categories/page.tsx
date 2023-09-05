@@ -81,7 +81,7 @@ export default function CategoryList() {
         <Button
           variant="contained"
           color="secondary"
-          to="/category/create"
+          href="/categories/create"
           style={{ marginBottom: "1rem" }}
           component={Link}
         >
