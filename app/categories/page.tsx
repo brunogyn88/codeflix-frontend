@@ -10,9 +10,12 @@ import {
   GridToolbar,
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useDispatch } from "react-redux";
+import { deleteCategory } from "@/lib/redux/slices/categorySlice/categorySlice";
 
 export default function CategoryList() {
   const categories = useSelector(selectCategories);
+  const dispatch = useDispatch();
 
   const componentProps = {
     toolbar: {
@@ -42,6 +45,7 @@ export default function CategoryList() {
     {
       field: "id",
       headerName: "Actions",
+      type: "string",
       flex: 1,
       renderCell: renderActionsCell,
     },
@@ -55,12 +59,16 @@ export default function CategoryList() {
     );
   }
 
-  function renderActionsCell(rowData: GridRenderCellParams) {
+  function handleDeleteCategory(id: string) {
+    dispatch(deleteCategory(id));
+  }
+
+  function renderActionsCell(params: GridRenderCellParams) {
     return (
       <IconButton
         color="secondary"
         aria-label="delete"
-        onClick={() => console.log("delete")}
+        onClick={() => handleDeleteCategory(params.value)}
       >
         <DeleteIcon />
       </IconButton>
@@ -89,9 +97,6 @@ export default function CategoryList() {
         </Button>
       </Box>
 
-      {/* {categories.map((category) => (
-        <Typography key={category.id}>{category.name}</Typography>
-      ))} */}
       <div style={{ height: 300, width: "100%" }}>
         <DataGrid
           rows={rows}

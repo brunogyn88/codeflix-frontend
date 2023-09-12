@@ -1,9 +1,13 @@
 "use client";
 import { ReduxState, selectCategoryById } from "@/lib/redux";
 import { Box, Paper, Typography } from "@mui/material";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { CategoryForm } from "../../components/CategoryForm";
+import {
+  Category,
+  updateCategory,
+} from "@/lib/redux/slices/categorySlice/categorySlice";
 
 interface CategoryProps {
   params: {
@@ -16,11 +20,25 @@ export default function CategoryEdit(params: CategoryProps) {
   const category = useSelector((state: ReduxState) =>
     selectCategoryById(state, id)
   );
+  const [categoryState, setCategoryState] = useState<Category>(category);
 
   const [isdisabled, setIsdisabled] = useState(false);
 
-  const handleChange = (e: any) => {};
-  const handleToggle = (e: any) => {};
+  const dispatch = useDispatch();
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    dispatch(updateCategory(categoryState));
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCategoryState({ ...categoryState, [name]: value });
+  };
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setCategoryState({ ...categoryState, [name]: checked });
+  };
 
   return (
     <Box>
@@ -32,10 +50,10 @@ export default function CategoryEdit(params: CategoryProps) {
         </Box>
 
         <CategoryForm
-          category={category}
+          category={categoryState}
           isdisabled={isdisabled}
           isLoading={false}
-          onSubmit={() => {}}
+          handleSubmit={handleSubmit}
           handleChange={handleChange}
           handleToggle={handleToggle}
         />

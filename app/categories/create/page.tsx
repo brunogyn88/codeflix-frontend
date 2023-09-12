@@ -1,8 +1,12 @@
 "use client";
-import { Category } from "@/lib/redux/slices/categorySlice/categorySlice";
+import {
+  Category,
+  createCategory,
+} from "@/lib/redux/slices/categorySlice/categorySlice";
 import { Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import { CategoryForm } from "../components/CategoryForm";
+import { useDispatch } from "react-redux";
 
 interface CategoryProps {
   params: {
@@ -12,7 +16,7 @@ interface CategoryProps {
 
 export default function CategoryCreate(params: CategoryProps) {
   const [isdisabled, setIsdisabled] = useState(false);
-  const [category, setCategory] = useState<Category>({
+  const [categoryState, setCategoryState] = useState<Category>({
     id: "",
     name: "",
     description: "",
@@ -21,9 +25,21 @@ export default function CategoryCreate(params: CategoryProps) {
     updated_at: "",
     deleted_at: "",
   });
+  const dispatch = useDispatch();
 
-  const handleChange = (e: any) => {};
-  const handleToggle = (e: any) => {};
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    dispatch(createCategory(categoryState));
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCategoryState({ ...categoryState, [name]: value });
+  };
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setCategoryState({ ...categoryState, [name]: checked });
+  };
 
   return (
     <Box>
@@ -35,10 +51,10 @@ export default function CategoryCreate(params: CategoryProps) {
         </Box>
 
         <CategoryForm
-          category={category}
+          category={categoryState}
           isdisabled={isdisabled}
           isLoading={false}
-          onSubmit={() => {}}
+          handleSubmit={handleSubmit}
           handleChange={handleChange}
           handleToggle={handleToggle}
         />
