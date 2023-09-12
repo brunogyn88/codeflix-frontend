@@ -8,6 +8,7 @@ import {
   Category,
   updateCategory,
 } from "@/lib/redux/slices/categorySlice/categorySlice";
+import { useSnackbar } from "notistack";
 
 interface CategoryProps {
   params: {
@@ -26,9 +27,12 @@ export default function CategoryEdit(params: CategoryProps) {
 
   const dispatch = useDispatch();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(updateCategory(categoryState));
+    enqueueSnackbar("Sucess updating category!", { variant: "success" });
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

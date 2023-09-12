@@ -7,6 +7,7 @@ import { Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import { CategoryForm } from "../components/CategoryForm";
 import { useDispatch } from "react-redux";
+import { useSnackbar } from "notistack";
 
 interface CategoryProps {
   params: {
@@ -26,10 +27,12 @@ export default function CategoryCreate(params: CategoryProps) {
     deleted_at: "",
   });
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(createCategory(categoryState));
+    enqueueSnackbar("Sucess created category!", { variant: "success" });
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

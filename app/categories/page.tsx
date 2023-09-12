@@ -12,10 +12,12 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch } from "react-redux";
 import { deleteCategory } from "@/lib/redux/slices/categorySlice/categorySlice";
+import { useSnackbar } from "notistack";
 
 export default function CategoryList() {
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const componentProps = {
     toolbar: {
@@ -61,6 +63,7 @@ export default function CategoryList() {
 
   function handleDeleteCategory(id: string) {
     dispatch(deleteCategory(id));
+    enqueueSnackbar("Category deleting successfully!", { variant: "success" });
   }
 
   function renderActionsCell(params: GridRenderCellParams) {
