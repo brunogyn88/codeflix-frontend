@@ -11,10 +11,14 @@ import {
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch } from "react-redux";
-import { deleteCategory } from "@/lib/redux/slices/categorySlice/categorySlice";
+import {
+  deleteCategory,
+  useGetCategoriesQuery,
+} from "@/lib/redux/slices/categorySlice/categorySlice";
 import { useSnackbar } from "notistack";
 
 export default function CategoryList() {
+  const { data, isFetching, error } = useGetCategoriesQuery();
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
