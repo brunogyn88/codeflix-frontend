@@ -13,5 +13,5 @@ const reducers = {
 
 export const reducer = {
   ...reducers,
-  [categoriesApiSlice.reducerPath]: reducers[apiSlice.reducerPath],
+  [categoriesApiSlice.reducerPath]: apiSlice.reducer,
 };

@@ -19,6 +19,7 @@ import { useSnackbar } from "notistack";
 
 export default function CategoryList() {
   const { data, isFetching, error } = useGetCategoriesQuery();
+  console.log(data?.data);
   const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
