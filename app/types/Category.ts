@@ -11,6 +11,7 @@ export interface Result {
 }
 
 export interface Category {
+  is_active: boolean;
   id: string;
   name: string;
   deleted_at: string;

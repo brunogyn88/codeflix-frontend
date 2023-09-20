@@ -13,14 +13,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch } from "react-redux";
 import {
   deleteCategory,
+  useDeleteCategoryMutation,
   useGetCategoriesQuery,
 } from "@/lib/redux/slices/categorySlice/categorySlice";
 import { useSnackbar } from "notistack";
+import { useEffect } from "react";
 
 export default function CategoryList() {
   const { data, isFetching, error } = useGetCategoriesQuery();
-  console.log(data?.data);
-  const categories = useSelector(selectCategories);
+  const [deleteCategory, deleteCategoryStatus] = useDeleteCategoryMutation();
+  // const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -30,13 +32,15 @@ export default function CategoryList() {
     },
   };
 
-  const rows: GridRowsProp = categories.map((category) => ({
-    id: category.id,
-    name: category.name,
-    is_active: category.is_active,
-    created_at: new Date(category.created_at).toLocaleDateString("pt-BR"),
-    description: category.description,
-  }));
+  const rows: GridRowsProp = data
+    ? data.data.map((category) => ({
+        id: category.id,
+        name: category.name,
+        is_active: category.is_active,
+        created_at: new Date(category.created_at).toLocaleDateString("pt-BR"),
+        description: category.description,
+      }))
+    : [];
 
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", flex: 1, renderCell: renderNameCell },
@@ -66,10 +70,22 @@ export default function CategoryList() {
     );
   }
 
-  function handleDeleteCategory(id: string) {
-    dispatch(deleteCategory(id));
-    enqueueSnackbar("Category deleting successfully!", { variant: "success" });
+  async function handleDeleteCategory(id: string) {
+    await deleteCategory({ id });
   }
+
+  useEffect(() => {
+    if (deleteCategoryStatus.isSuccess) {
+      enqueueSnackbar("Category deleted", {
+        variant: "success",
+      });
+    }
+    if (deleteCategoryStatus.error) {
+      enqueueSnackbar("Category not deleted", {
+        variant: "error",
+      });
+    }
+  }, [deleteCategoryStatus, enqueueSnackbar]);
 
   function renderActionsCell(params: GridRenderCellParams) {
     return (
