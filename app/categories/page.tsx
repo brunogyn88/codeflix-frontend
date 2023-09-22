@@ -1,6 +1,10 @@
 "use client";
 /* Components */
-import { selectCategories, useSelector } from "@/lib/redux";
+import {
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+} from "@/lib/redux/slices/categorySlice/categorySlice";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Button, IconButton, Link, Typography } from "@mui/material";
 import {
   DataGrid,
@@ -9,15 +13,9 @@ import {
   GridRowsProp,
   GridToolbar,
 } from "@mui/x-data-grid";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch } from "react-redux";
-import {
-  deleteCategory,
-  useDeleteCategoryMutation,
-  useGetCategoriesQuery,
-} from "@/lib/redux/slices/categorySlice/categorySlice";
 import { useSnackbar } from "notistack";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function CategoryList() {
   const { data, isFetching, error } = useGetCategoriesQuery();
@@ -121,7 +119,7 @@ export default function CategoryList() {
         </Button>
       </Box>
 
-      <div style={{ height: 300, width: "100%" }}>
+      <div style={{ height: "80vh", width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
