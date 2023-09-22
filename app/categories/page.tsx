@@ -20,7 +20,6 @@ import { useDispatch } from "react-redux";
 export default function CategoryList() {
   const { data, isFetching, error } = useGetCategoriesQuery();
   const [deleteCategory, deleteCategoryStatus] = useDeleteCategoryMutation();
-  // const categories = useSelector(selectCategories);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
